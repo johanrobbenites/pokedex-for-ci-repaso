@@ -1,4 +1,4 @@
-name: Test CI
+name: Say hello
 
 on:
   push:
@@ -9,6 +9,9 @@ jobs:
   hello_world:
     runs-on: ubuntu-18.04
     steps:
-      - name: "Date:"
+      - name: Echo the message
+        run: |
+          echo "Mundo"
+      - name: Dime la fecha
         run: date
       - run: ls -l
