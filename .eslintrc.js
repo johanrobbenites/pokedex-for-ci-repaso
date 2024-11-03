@@ -6,8 +6,7 @@ module.exports = {
     "node": true
   },
   "extends": [
-    "eslint:recommended",
-    "plugin:react/recommended"
+    "eslint:recommended"
   ],
   "parserOptions": {
     "ecmaFeatures": {
@@ -16,9 +15,6 @@ module.exports = {
     "ecmaVersion": 2018,
     "sourceType": "module"
   },
-  "plugins": [
-    "react", "jest"
-  ],
   "rules": {
     "indent": [
       "error",
@@ -43,8 +39,6 @@ module.exports = {
     ],
     "arrow-spacing": [
       "error", { "before": true, "after": true }
-    ],
-    "no-console": "warn",
-    "react/prop-types": 0
+    ]
   }
 }
