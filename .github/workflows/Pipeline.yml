@@ -24,7 +24,7 @@ jobs:
       - name: Test
         run: npm run test
       - name: Cypress.io
-        uses: cypress-io/github-action@v6.7.6
+        uses: cypress-io/github-action@v2
         with:
           command: npm run test:e2e
           browser: chrome
