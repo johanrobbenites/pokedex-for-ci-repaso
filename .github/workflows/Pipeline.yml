@@ -9,7 +9,7 @@ on:
     types: [opened, synchronize]
 
 jobs:
-  Deploy:
+  Avoid_redundance:
     runs-on: ubuntu-latest
     steps:
       - name: Evitando Redundancia
@@ -17,22 +17,43 @@ jobs:
         uses:  styfle/cancel-workflow-action@0.12.1
         with:
           access_token: ${{secrets.GITHUB_TOKEN}}
-          run: echo "Evitando Redundancia"
-
-      - name: Checkout            
-        uses: actions/checkout@v4.2.2
+  Build:
+    runs-on: ubuntu-latest
+    steps:          
+      - uses: actions/checkout@v4.2.2
         with:
           fetch-depth: 0
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v4.1.0
+      - uses: actions/setup-node@v4.1.0
         with:
           node-version: '14'
       - name: Install dependencies
         run: npm install -no--audit -no--fund
       - name: Build
         run: npm run build
+      - uses: actions/upload-artifact@v2
+        with:
+          name: dist
+          path: dist
+  Test:
+    needs: [Build]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.2.2
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4.1.0
+        with:
+          node-version: '14'
+      - uses: actions/download-artifact@v2
+        with:
+          name: dist 
       - name: Test
         run: npm run test
+
+  Deploy:
+    needs: [Test]
+    runs-on: ubuntu-latest
+    steps:
       - name: Mostrar secrets
         if: ${{github.event_name == 'push'}}
         run: echo ${{ secrets.HER_GMAIL }}
