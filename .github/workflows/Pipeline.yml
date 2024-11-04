@@ -4,11 +4,19 @@ on:
   push:
     branches:
       - main
-
+  pull_request:
+    branches: [main]
 jobs:
   Deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: Evitando Redundancia
+        if: ${{github.event_name == 'push'}}
+        uses:  styfle/cancel-workflow-action@0.12.1
+        with:
+          access_token: ${{secrets.GITHUB_TOKEN}}
+          run: echo "Evitando Redundancia"
+
       - name: Checkout            
         uses: actions/checkout@v4.2.2
         with:
@@ -24,8 +32,8 @@ jobs:
       - name: Test
         run: npm run test
       - name: Mostrar secrets
-        run: | 
-          echo ${{ secrets.HER_GMAIL }} && ${{ secrets.PASS }}
+        if: ${{github.event_name == 'push'}}
+        run: echo ${{ secrets.HER_GMAIL }}
 ##     - name: Cypress.io
 ##        uses: cypress-io/github-action@v2
 ##        with:
