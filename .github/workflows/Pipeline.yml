@@ -4,7 +4,9 @@ on:
   push:
     branches:
       - main
-
+  pull_request: 
+    branches: [main]
+    types: [opened, synchronize]
 jobs:
   Deploy:
     runs-on: ubuntu-latest
@@ -25,7 +27,7 @@ jobs:
         run: npm run test
       - name: Mostrar secrets
         run: | 
-          echo ${{ secrets.HER_GMAIL }} && ${{ secrets.PASS }}
+          echo ${{ secrets.HER_GMAIL }}
 ##     - name: Cypress.io
 ##        uses: cypress-io/github-action@v2
 ##        with:
