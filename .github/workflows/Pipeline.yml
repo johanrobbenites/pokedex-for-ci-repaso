@@ -8,7 +8,23 @@ on:
     branches: [main]
     types: [opened, synchronize]
 
+
+
 jobs:
+
+  install:
+    runs-on: ubuntu-latest
+    steps:          
+      - uses: actions/checkout@v4.2.2
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4.1.0
+        with:
+          cache: 'npm'
+          node-version: '14'
+      - name: Install dependencies
+        run: npm install -no--audit -no--fund
+
   Avoid_redundance:
     runs-on: ubuntu-latest
     steps:
@@ -25,6 +41,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v4.1.0
         with:
+          cache: 'npm'
           node-version: '14'
       - name: Install dependencies
         run: npm install -no--audit -no--fund
@@ -43,7 +60,10 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v4.1.0
         with:
+          cache: 'npm'
           node-version: '14'
+      - name: Install dependencies
+        run: npm install -no--audit -no--fund
       - uses: actions/download-artifact@v4
         with:
           name: dist 
